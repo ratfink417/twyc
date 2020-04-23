@@ -1,0 +1,41 @@
+* Tap When you Can!
+This program takes all of the guess work out of your complicated NSM life.
+** Features
+    - Uses the the block chain, and an AI backend to calculate outcomes of your gigamon placement based on simple input from the user
+    - Includes a TapCoin microservice that mines REAL crypto for you while you're not using it to figure out how to supply data to your SIEM stack
+    - Node.JS, Docker, Elixir/Pheonix, Hadoop, DingleBerry.js, MariaDb
+
+#+BEGIN_SRC sh
+cd ~/not_port/TWYC
+make
+twyc you can
+
+# Or maybe...
+
+twyc you must
+
+#+END_SRC
+
+** FAQ
+    - What if I type something wrong?
+        Don't worry, You'll be given an error message and you can pose your situation to the AI/TapCoin block chain in a more meaningful way
+
+    - When should I tap?
+        When you can!
+
+    - When should I SPAN?
+        When you must!
+
+** Data Tables
+    +----------+------------+
+    | When     | What to do |
+    +----------+------------+
+    | you can  | TAP        |
+    +----------+------------+
+    | you must | SPAN       |
+    +----------+------------+
+
+** Benchmarks
+#+CAPTION: Impressive!!!!!!!!!!!!!!!!!!!!!!!!
+#+NAME: fig:bench
+[[./int.png]]
