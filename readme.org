@@ -17,6 +17,10 @@ twyc you must
 
 #+END_SRC
 
+** Major Feature Update
+	Tap When You Can has now been ported to a shared library to make the code more portable.
+	Now you can Tap or Span when from your OWN applications using the functions in libtwyc!
+
 ** FAQ
     - What if I type something wrong?
         Don't worry, You'll be given an error message and you can pose your situation to the AI/TapCoin block chain in a more meaningful way
@@ -40,3 +44,9 @@ twyc you must
 #+CAPTION: Impressive!!!!!!!!!!!!!!!!!!!!!!!!
 #+NAME: fig:bench
 [[./int.png]]
+
+** Todo
+	- create unit tests
+	- fix uninstall recipie in makefile
+	- change the install recipie to place libtwyc.so in user's default lib path
+	- change the install recipie to add twyc bin path to the user's path variable
