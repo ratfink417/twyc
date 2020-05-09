@@ -22,7 +22,7 @@ typedef char* (*what_to_do)(Network*);
 
 int main(int argc, char *argv[]){
 	int rc = 0;
-	char *twyc_lib = "/home/emmy/src/TWYC/src/libtwyc.so";
+	char *twyc_lib = "./bin/libtwyc.so";
 	Network *my_net;
 	char *span_it,*tap_it,*my_choice;
 
