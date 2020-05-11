@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dlfcn.h>
+#include <glob.h>
 #include "dbg.h"
 #include "libtwyc.h"
 
@@ -21,10 +22,11 @@ typedef void (*verifier)(char*, void*);
 typedef char* (*what_to_do)(Network*);
 
 int main(int argc, char *argv[]){
+
 	int rc = 0;
-	char *twyc_lib = "./bin/libtwyc.so";
 	Network *my_net;
 	char *span_it,*tap_it,*my_choice;
+	char *twyc_lib = "libtwyc.so";
 
 	if(argc != 3)
 		usage();

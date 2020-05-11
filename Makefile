@@ -44,11 +44,10 @@ clean:
 	rm -rf `find . -name "*.dSYM*" -print`
 
 install: all
-	install -d $(DESTDIR)/$(PREFIX)/lib/
-	install $(TARGET) $(DESTDIR)/$(PREFIX)/lib/
+	cp ./bin/libtwyc.so /usr/lib
 
 uninstall:
-	rm $(DESTDIR)/$(PREFIX)/lib/twyc
+	rm /usr/lib/libtwyc.so
 
 check:
 	@echo Files with potentially dangerous functions.
