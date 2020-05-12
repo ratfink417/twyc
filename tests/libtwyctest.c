@@ -2,9 +2,16 @@
 #include "libtwyc.h"
 #include <dlfcn.h>
 
-#define import_check(type,func) type type ## _test_func = dlsym(lib_handle, #func );\
-				check(type ## _test_func != NULL, "failed import: " #func );\
-				printf("loaded: %s\n", " " #func);
+#define import_check(TYPE,FUNC) TYPE TYPE ## _test_func = dlsym(lib_handle, #FUNC );\
+				check(TYPE ## _test_func != NULL, "failed import: " #FUNC );\
+				printf("loaded: %s\n", " " #FUNC);
+
+#define make_network_test(NUM, INPUT) Network *test_net ## NUM = make_network_test_func(INPUT);\
+					printf("Network: " #test_net ## NUM "\n");\
+					printf("Type: " #INPUT "\n");\
+					free(test_net ## NUM)
+
+void *lib_handle = NULL;
 
 char *code_relocation_check(){
 	typedef char* (*spanner_tapper)(void);
@@ -12,10 +19,8 @@ char *code_relocation_check(){
 	typedef void (*verifier)(char*, void*);
 	typedef char* (*what_to_do)(Network*);
 
-
-	int rc = 0;
 	char *twyc_lib = "libtwyc.so";
-	void *lib_handle = dlopen(twyc_lib, RTLD_NOW);
+	lib_handle = dlopen(twyc_lib, RTLD_NOW);
 	check(lib_handle != NULL, "Failed to open library %s: %s", twyc_lib, dlerror());
 
 // place any new function from twyc lib that will be used in your program here
@@ -23,8 +28,6 @@ char *code_relocation_check(){
     	import_check(make_network, new_net);
     	import_check(verifier, span_or_tap_only);
     	import_check(what_to_do, wut_do);
-
-	rc = dlclose(lib_handle);
 
 	return NULL;
 
@@ -34,6 +37,10 @@ function or library you are trying to import\n";
 }
 
 char *test_new_net(){
+	make_network_test(1,"can");
+	make_network_test(2,"must");
+	make_network_test(3,"atypical");
+
 	return NULL;
 }
 char *test_span_or_tap_only(){
@@ -53,6 +60,9 @@ char *alltests(){
         unittest_run_test(test_span_or_tap_only);
         unittest_run_test(test_span_and_tap);
         unittest_run_test(test_wut_do);
+
+	int rc = dlclose(lib_handle);
+	check(rc == 0, "Failed to close shared library");
 
 	return NULL;
 
