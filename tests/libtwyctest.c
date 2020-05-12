@@ -1,43 +1,63 @@
 #include "unittest.h"
+#include "libtwyc.h"
 #include <dlfcn.h>
 
-#define import_check(type, func) type test_func = dlsym(lib_handle, func);
+#define import_check(type,func) type type ## _test_func = dlsym(lib_handle, #func );\
+				check(type ## _test_func != NULL, "failed import: " #func );\
+				printf("loaded: %s\n", " " #func);
 
-typedef char* (*spanner_tapper)(void);
-typedef Network* (*make_network)(char*);
-typedef void (*verifier)(char*, void*);
-typedef char* (*what_to_do)(Network*);
+char *code_relocation_check(){
+	typedef char* (*spanner_tapper)(void);
+	typedef Network* (*make_network)(char*);
+	typedef void (*verifier)(char*, void*);
+	typedef char* (*what_to_do)(Network*);
 
-char *twyc_lib = "/home/emmy/src/TWYC/src/libtwyc.so";
-Network *test_net;
 
-void *lib_handle = dlopen(twyc_lib, RTLD_NOW);
-check(lib_handle != NULL, "Failed to open library %s: %s", twyc_lib, dlerror());
+	int rc = 0;
+	char *twyc_lib = "libtwyc.so";
+	void *lib_handle = dlopen(twyc_lib, RTLD_NOW);
+	check(lib_handle != NULL, "Failed to open library %s: %s", twyc_lib, dlerror());
 
-import_check(spanner_tapper, span);
-import_check(spanner_tapper, tap);
-import_check(make_network, new_net);
-import_check(verifier, span_or_tap_only);
-import_check(what_to_do, wut_do);
+// place any new function from twyc lib that will be used in your program here
+	import_check(spanner_tapper, tap);
+    	import_check(make_network, new_net);
+    	import_check(verifier, span_or_tap_only);
+    	import_check(what_to_do, wut_do);
 
-Network *new_net{return NULL;}
-set_network_x(Network *net, int i){return NULL;}
-span_or_tap_only(char *arg_val, void *usage()){return NULL;}
-char *span(){return NULL;}
-char *tap(){return NULL;}
-char *wut_do(Network *net){return NULL;}
-
-char *alltests(){
-	unittest_suite_start();
-
-	unittest_run_test(new_net);
-	unittest_run_test(set_network_x);
-	unittest_run_test(span_or_tap_only);
-	unittest_run_test(span);
-	unittest_run_test(tap);
-	unittest_run_test(wut_do);
+	rc = dlclose(lib_handle);
 
 	return NULL;
+
+error:
+	return "Failed the code relocation test check the spelling or type signature of the\n\
+function or library you are trying to import\n";
+}
+
+char *test_new_net(){
+	return NULL;
+}
+char *test_span_or_tap_only(){
+	return NULL;
+}
+char *test_span_and_tap(){
+	return NULL;
+}
+char *test_wut_do(){
+	return NULL;
+}
+
+char *alltests(){
+        unittest_suite_start();
+        unittest_run_test(code_relocation_check);
+  	unittest_run_test(test_new_net);
+        unittest_run_test(test_span_or_tap_only);
+        unittest_run_test(test_span_and_tap);
+        unittest_run_test(test_wut_do);
+
+	return NULL;
+
+error:
+	return "ERROR";
 }
 
 RUN_TESTS(alltests);
